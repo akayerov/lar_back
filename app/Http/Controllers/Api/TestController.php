@@ -10,11 +10,11 @@ class TestController extends Controller
 {
     public function __construct()
     {
-// можно защищать роуты, а можно здесь защищать методы        
+// можно защищать роуты, а можно здесь защищать методы
 //        $this->middleware('auth:api', ['except' => ['index','testdb']]);
     }
 
-    
+
     public function index()
     {
         var_dump('Hello');
@@ -23,9 +23,11 @@ class TestController extends Controller
     public function testdb(Request $request)
     {
         var_dump('testdb', ($request->user()) ? $request->user()->name : 'no user');
+        var_dump('Data pull from DB start');
         $tests = DB::select('select * from test');
 
 //        var_dump('Hello');
+        var_dump('Data pull from DB');
         return $tests;
     }
     public function testdb1(Request $request)
@@ -33,9 +35,15 @@ class TestController extends Controller
         var_dump('testdb1', ($request->user()) ? $request->user()->name : 'no user');
         $tests = DB::select('select * from test');
 
-//        var_dump('Hello');
+        var_dump('Data pull from DB');
         return $tests;
     }
 
-    
+    public function getClients(Request $request)
+    {
+  //      var_dump('getClient');
+        $tests = DB::select('select * from clients');
+        return $tests;
+    }
+
 }
