@@ -29,7 +29,10 @@ Route::get('hello', 'App\Http\Controllers\Api\TestController@index');
 Route::get('client', 'App\Http\Controllers\Api\TestController@getClients');
 Route::middleware('auth:api')->get('testdb1', 'App\Http\Controllers\Api\TestController@testdb1');
 
-
+// тест сброса пароля 
+Route::post('password/email', 'App\Http\Controllers\Api\PasswordController@postEmail');  
+Route::post('password/reset', 'App\Http\Controllers\Api\PasswordController@postReset');  
+//Route::post('password/set', 'UserController@setPassword');  
 
 
 
@@ -37,6 +40,8 @@ Route::get('/test1', function () {
     // Only authenticated users may access this route...
     return 'OK USER authetificated';
 })->middleware('auth:api');
+
+
 
 /* Добавить аутентификацию по JWT */
 Route::group([
@@ -58,4 +63,10 @@ Route::group([
 // иначе как создать нового пользователя?
         Route::post('registration', 'App\Http\Controllers\AuthController@registration');
         Route::get('payload', 'App\Http\Controllers\AuthController@payload');
+// поcлать письмо        
+        Route::get('sendmail', 'App\Http\Controllers\AuthController@sendEmail');
+        Route::get('resetpassword', 'App\Http\Controllers\AuthController@sendResetLinkEmail');
+        Route::get('resetpassword_link/{token}', 'App\Http\Controllers\AuthController@resetPassword');
+        Route::post('resetpassword_link/{token}', 'App\Http\Controllers\AuthController@setPassword');
+        
 });
