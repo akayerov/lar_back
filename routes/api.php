@@ -26,13 +26,34 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // В 8 версии laravel
 Route::get('testdb', 'App\Http\Controllers\Api\TestController@testdb');
 Route::get('hello', 'App\Http\Controllers\Api\TestController@index');
+// очерерь и продолжительное время выполнения
+Route::get('testQueue', 'App\Http\Controllers\Api\TestController@testQueue');
+Route::get('testQueue1', 'App\Http\Controllers\Api\TestController@testQueue1');
+// прогресс выполнения
+Route::get('getProgress', 'App\Http\Controllers\Api\TestController@getProgress');
+
+// Redis cashe
+Route::post('redisSave', 'App\Http\Controllers\Api\TestController@redisSave');
+Route::post('redisLoad', 'App\Http\Controllers\Api\TestController@redisLoad');
+
 Route::get('client', 'App\Http\Controllers\Api\TestController@getClients');
 Route::middleware('auth:api')->get('testdb1', 'App\Http\Controllers\Api\TestController@testdb1');
 
-// тест сброса пароля 
-Route::post('password/email', 'App\Http\Controllers\Api\PasswordController@postEmail');  
-Route::post('password/reset', 'App\Http\Controllers\Api\PasswordController@postReset');  
-//Route::post('password/set', 'UserController@setPassword');  
+// тест сброса пароля
+Route::post('password/email', 'App\Http\Controllers\Api\PasswordController@postEmail');
+Route::post('password/reset', 'App\Http\Controllers\Api\PasswordController@postReset');
+//Route::post('password/set', 'UserController@setPassword');
+
+// Генерация события
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'event'
+], function () {
+    Route::post('genEvent', 'App\Http\Controllers\Api\TestController@genEvent');
+    Route::post('genEvent2', 'App\Http\Controllers\Api\TestController@genEvent2');
+    Route::post('setBindExchange', 'App\Http\Controllers\Api\TestController@setBindExchange');
+});
+
 
 
 
@@ -63,10 +84,10 @@ Route::group([
 // иначе как создать нового пользователя?
         Route::post('registration', 'App\Http\Controllers\AuthController@registration');
         Route::get('payload', 'App\Http\Controllers\AuthController@payload');
-// поcлать письмо        
+// поcлать письмо
         Route::get('sendmail', 'App\Http\Controllers\AuthController@sendEmail');
         Route::get('resetpassword', 'App\Http\Controllers\AuthController@sendResetLinkEmail');
         Route::get('resetpassword_link/{token}', 'App\Http\Controllers\AuthController@resetPassword');
         Route::post('resetpassword_link/{token}', 'App\Http\Controllers\AuthController@setPassword');
-        
+
 });
